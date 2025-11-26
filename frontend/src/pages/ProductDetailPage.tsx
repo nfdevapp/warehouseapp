@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-
 type Category = "ELECTRONICS" | "SPORT_EQUIPMENT" | "COSMETICS" | "CLOTHING";
 
 export type Product = {
@@ -21,18 +20,18 @@ const categoryLabels: Record<Category, string> = {
     CLOTHING: "Kleidung"
 };
 
-
 export default function ProductDetailPage() {
     const { id } = useParams();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState("");
 
+    // Produkt laden
     useEffect(() => {
         if (!id) return;
 
         axios
-            .get(`/api/productdetailpage/${id}`)
+            .get(`/api/product/${id}`)
             .then((res) => {
                 setProduct(res.data);
                 setLoading(false);
@@ -43,14 +42,14 @@ export default function ProductDetailPage() {
             });
     }, [id]);
 
-
+    // Eingaben aktualisieren
     function handleChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) {
         if (!product) return;
+
         const { name, value } = e.target;
 
-        // automatisch casten bei Kategorie
         const correctedValue =
             name === "category" ? (value as Category) : value;
 
@@ -60,18 +59,15 @@ export default function ProductDetailPage() {
         });
     }
 
+    // Produkt speichern
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         if (!product) return;
 
         axios
-            .put(`/api/productdetailpage/${product.id}`, product)
-            .then(() => {
-                setMessage("Produkt erfolgreich aktualisiert!");
-            })
-            .catch(() => {
-                setMessage("Fehler beim Aktualisieren des Produkts.");
-            });
+            .put(`/api/product/${product.id}`, product)
+            .then(() => setMessage("Produkt erfolgreich aktualisiert!"))
+            .catch(() => setMessage("Fehler beim Aktualisieren des Produkts."));
     }
 
     if (loading) return <p>Lade Produkt…</p>;
@@ -129,13 +125,11 @@ export default function ProductDetailPage() {
                         value={product.category}
                         onChange={handleChange}
                     >
-                        {Object.entries(categoryLabels).map(
-                            ([key, label]) => (
-                                <option key={key} value={key}>
-                                    {label}
-                                </option>
-                            )
-                        )}
+                        {Object.entries(categoryLabels).map(([key, label]) => (
+                            <option key={key} value={key}>
+                                {label}
+                            </option>
+                        ))}
                     </select>
                 </label>
 

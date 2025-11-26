@@ -1,6 +1,7 @@
 package org.example.backend.service;
 
 import org.example.backend.model.dto.InboundOrderDto;
+import org.example.backend.model.dto.ProductDto;
 import org.example.backend.model.entities.InboundOrder;
 import org.example.backend.model.entities.Product;
 import org.example.backend.model.entities.Supplier;
@@ -21,7 +22,7 @@ public class ProductService {
     private final InboundOrderRepo inboundOrderRepo;
     private final SupplierRepo supplierRepo;
 
-    Product defaultproduct=new Product("1","testproduct","123445", "testprodukt",1, Category.CLOTHING);
+    Product defaultproduct=new Product("1","testproduct","123445", "testprodukt",1, Category.CLOTHING, "1");
 
 
     public ProductService(ProductRepo productRepo, InboundOrderRepo inboundOrderRepo, SupplierRepo supplierRepo) {
@@ -31,16 +32,16 @@ public class ProductService {
         this.productRepo.save(defaultproduct);
     }
 
-    public List<Product> getAllProducts() {
-        return  productRepo.findAll();
+    public List<Product> getAllProductsById(String warehouseId) {
+        return  productRepo.findByWarehouseId(warehouseId);
     }
 
     public Product getProductById(String id) {
         return productRepo.findById(id).orElse(null);
     }
 
-    public Product updateProduct(String id, Product product) {
-        Product oldData = productRepo.findById(id).orElse(null);
+    public Product updateProduct(Product product) {
+        Product oldData = productRepo.findById(product.id()).orElse(null);
         if (oldData != null) {
             productRepo.save(
                     oldData.

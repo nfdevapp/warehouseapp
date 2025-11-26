@@ -14,5 +14,6 @@ public record Product(
         String barcode,
         String description,
         int quantity,
-        Category category) {
+        Category category,
+        String warehouseId) {
 }
