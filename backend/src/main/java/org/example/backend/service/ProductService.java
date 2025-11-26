@@ -11,12 +11,9 @@ import org.example.backend.repository.SupplierRepo;
 import org.example.backend.utils.enums.Category;
 import org.example.backend.utils.enums.Status;
 import org.springframework.stereotype.Service;
-import org.example.backend.service.IDService;
-import org.example.backend.service.BarCodeService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductService {
