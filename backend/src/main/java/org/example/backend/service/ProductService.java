@@ -31,15 +31,15 @@ public class ProductService {
         this.productRepo.save(defaultproduct);
     }
 
-    public List<Product> getAll() {
+    public List<Product> getAllProducts() {
         return  productRepo.findAll();
     }
 
-    public Product getById(String id) {
+    public Product getProductById(String id) {
         return productRepo.findById(id).orElse(null);
     }
 
-    public Product update(String id, Product product) {
+    public Product updateProduct(String id, Product product) {
         Product oldData = productRepo.findById(id).orElse(null);
         if (oldData != null) {
             productRepo.save(
