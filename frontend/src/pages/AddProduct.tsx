@@ -46,6 +46,10 @@ export default function AddProduct() {
         setNewProduct({name: productName, description: productDescription, quantity: productQuantity,category:productCategory});
     }
 
+    const handleChange = (event:ChangeEvent<HTMLSelectElement>) => {
+        setProductCategory(event.target.value);
+    };
+
     function resetForm() {
         setProductName("");
         setProductDescription("");
@@ -58,11 +62,7 @@ export default function AddProduct() {
             newProduct)
         .then(response => {console.log(response.data);})
     }
-
-    const handleChange = (event:ChangeEvent<HTMLSelectElement>) => {
-        setProductCategory(event.target.value);
-    };
-
+    
     useEffect(() => {
         console.log(newProduct);
         addNewProduct();
@@ -80,7 +80,6 @@ export default function AddProduct() {
                     value={productName}
                 />
                 </label>
-
                 <label>Product Description:
                 <input
                     name={"Product Description"}
@@ -89,7 +88,6 @@ export default function AddProduct() {
                     value={productDescription}
                 />
                 </label>
-
                 <label>Quantity:
                 <input
                     name={"Quantity"}
@@ -99,7 +97,6 @@ export default function AddProduct() {
                     value={productQuantity}
                 />
                 </label>
-
                 <label>Category:
                     <select value={productCategory} onChange={handleChange}>
                         {categories.map((category) => (
@@ -110,7 +107,6 @@ export default function AddProduct() {
                 <button type="submit">Submit</button>
                 <button type="reset" onClick={resetForm}>Reset</button>
             </form>
-
         </>
     )
 }
