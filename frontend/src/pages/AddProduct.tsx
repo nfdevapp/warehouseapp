@@ -112,11 +112,5 @@ export default function AddProduct() {
             </form>
 
         </>
-        //<button type="button">Reset</button>
-    //<select name="selectedCategory" defaultValue="ELECTRONICS">
-    //<option value="ELECTRONICS">ELECTRONICS</option>
-    //<option value="SPORT_EQUIPMENT">SPORT_EQUIPMENT</option>
-    //<option value="COSMETICS">COSMETICS</option>
-    //<option value="CLOTHING">CLOTHING</option>
     )
 }
