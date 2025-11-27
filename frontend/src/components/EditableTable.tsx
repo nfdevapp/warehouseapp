@@ -53,7 +53,8 @@ export default function EditableTable<T extends { id: string }>({
     const startEdit = (row: T) => {
         if (editingId) return; // Nur eine Zeile gleichzeitig bearbeiten
         setEditingId(row.id);
-        setEditValues(row); // Anfangswerte füllen
+        // WICHTIG: frische flache Kopie setzen (keine Referenz)
+        setEditValues({ ...row }); // Anfangswerte füllen
     };
 
     //
@@ -135,8 +136,9 @@ export default function EditableTable<T extends { id: string }>({
                         {/* Spalten rendern */}
                         {columns.map(col => {
                             const baseValue = (row as any)[col.key]; // Wert aus Zeile
+                            // FALLBACK: falls editValues noch keinen Schlüssel hat, benutze baseValue
                             const value = isEditing
-                                ? (editValues as any)[col.key] // Bearbeiteter Wert
+                                ? ((editValues as any)[col.key] ?? baseValue) // Bearbeiteter Wert oder fallback
                                 : baseValue;
 
                             //
@@ -149,7 +151,8 @@ export default function EditableTable<T extends { id: string }>({
                                     return (
                                         <td key={String(col.key)} className="p-3">
                                             <select
-                                                value={value}
+                                                // value niemals undefined lassen
+                                                value={value as any}
                                                 className="border rounded p-1 w-full"
                                                 onChange={e =>
                                                     setEditValues(prev => ({
@@ -173,7 +176,8 @@ export default function EditableTable<T extends { id: string }>({
                                     <td key={String(col.key)} className="p-3">
                                         <input
                                             className="border rounded p-1 w-full"
-                                            value={value}
+                                            // input value niemals undefined (fallback auf '')
+                                            value={value ?? ""}
                                             type={col.inputType === "number" ? "number" : "text"}
                                             onChange={e =>
                                                 setEditValues(prev => ({

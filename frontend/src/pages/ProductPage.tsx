@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import EditableTable, { type Column } from "../components/EditableTable";
 import { Plus } from "lucide-react";
 
@@ -59,23 +59,7 @@ export default function ProductPage() {
 
     // Tabellen-Spalten definieren
     const columns: Column<Product>[] = [
-        {
-            key: "name",
-            label: "Produktname",
-            editable: true,
-            render: (value, row, isEditing) =>
-                !isEditing ? (
-                    // Klickbarer Link zur Detailseite
-                    <Link
-                        to={`/productdetails/${row.id}`}
-                        className="text-blue-600 underline"
-                    >
-                        {value}
-                    </Link>
-                ) : (
-                    value
-                )
-        },
+        { key: "name", label: "Produktname", editable: true },
         { key: "quantity", label: "Menge", editable: true, inputType: "number" },
         { key: "barcode", label: "Barcode", editable: true },
 
@@ -84,14 +68,7 @@ export default function ProductPage() {
             label: "Kategorie",
             editable: true,
             inputType: "select",
-            selectOptions: categoryOptions,
-
-            // Anzeige des Labels statt des ENUM-Werts
-            render(value, _row, isEditing) {
-                if (isEditing) return value;
-                const option = categoryOptions.find(o => o.value === value);
-                return option?.label ?? value;
-            }
+            selectOptions: categoryOptions
         }
     ];
 
@@ -138,7 +115,6 @@ export default function ProductPage() {
 
     return (
         <div className="max-w-5xl mx-auto mt-10">
-
             <div className="flex justify-between mb-6">
                 <h1 className="text-xl font-bold">Lagerhaus: {warehouse?.name}</h1>
 

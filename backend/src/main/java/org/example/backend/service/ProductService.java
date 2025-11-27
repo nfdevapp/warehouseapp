@@ -32,8 +32,8 @@ public class ProductService {
         return productRepo.findById(id).orElse(null);
     }
 
-    public Product updateProduct(Product product) {
-        Product oldData = productRepo.findById(product.id()).orElse(null);
+    public Product updateProduct(String id, Product product) {
+        Product oldData = productRepo.findById(id).orElse(null);
         if (oldData != null) {
             productRepo.save(
                     oldData.
