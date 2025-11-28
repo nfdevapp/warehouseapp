@@ -9,9 +9,9 @@ export default function ProductOverview(){
     const [allProducts, setAllProducts] = useState<ProductProps[]>([])
 
     function Request(){
-        axios.get("/getall")
+        axios.get("/api/getall")
             .then((e) => {
-                //setAllProducts(e.data);
+                setAllProducts(e.data);
                 console.log(e)}  )
 
     }
@@ -24,8 +24,7 @@ export default function ProductOverview(){
 
     return(
         <>
-            {/*  {allProducts.map(product => (<Product id={product.id} name={product.name} barcode={product.barcode} category={product.category} description={product.description} quantity={product.quantity} key={product.id}   /> ))} */}
-        </>
+              {allProducts.map(product => (<Product id={product.id} name={product.name} barcode={product.barcode} category={product.category} description={product.description} quantity={product.quantity} key={product.id}   /> ))}  </>
 
 
     )
